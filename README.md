@@ -12,9 +12,8 @@ Read more about wikidata API: https://www.wikidata.org/w/api.php
 go get github.com/Navid2zp/go-wikidata
 ```
 
-### Available APIs
 
-#### Get Entities
+### Get Entities
 
 - Receives a list of entity ids.
 - Response will be a pointer to `map[string]Entity` which the key being the entity ID and "Entity" being the data for that entity.
@@ -70,7 +69,7 @@ claimReq, err := res["Q1"].NewGetClaims()
 Same as calling `NewGetClaims`. See "Get Claims" for more information.
 
 
-#### Get Claims
+### Get Claims
 
 - Receives an entity ID or a claim GUID.
 - Response will be a pointer to `map[string][]Claim` which the key being the entity ID and value being a list of claims for that entity.
@@ -105,7 +104,7 @@ req.SetRank("normal")
 req.SetProperty("P31")
 ```
 
-#### Search
+### Search
 
 - Receives search string and search language string.
 - Response will be a pointer to `SearchEntitiesResponse` type containing the result as `SearchEntitiesResponse.SearchResult`.
@@ -154,7 +153,7 @@ Response methods:
 nextPage, err := res.Next()
 ```
 
-#### Get Wikipedia Page Item
+### Get Wikipedia Page Item
 
 Find Wikipedia page item ID in wikidata by page slug (https://en.wikipedia.org/wiki/[SLUG]).
 
@@ -165,7 +164,7 @@ fmt.Println(wikiDataID) // "Q2"
 
 
 
-#### Get Available Badges
+### Get Available Badges
 
 - Returns a pointer to a list of strings.
 - WikiData action: `wbavailablebadges`
