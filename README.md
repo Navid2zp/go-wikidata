@@ -6,6 +6,18 @@ Methods for updating, editing and adding to wikidata are not implemented (yet).
 
 Read more about wikidata API: https://www.wikidata.org/w/api.php
 
+## Contents
+
+- [Installation](#install)
+- [Get Entities](#get-entities)
+    - [Methods](#get-entity-methods)
+- [Get Claims](#get-claims)
+    - [Methods](#get-claims-methods)
+- [Search](#search)
+    - [Methods](#search-methods)
+- [Get Wikipedia Page Item](#get-wikipedia-page-item)
+- [Get Available Badges](#get-available-badges)
+
 
 ### Install
 ```
@@ -69,7 +81,7 @@ claimReq, err := res["Q1"].NewGetClaims()
 Same as calling `NewGetClaims`. See "Get Claims" for more information.
 
 
-###### Get claims methods:
+### Get Claims
 
 - Receives an entity ID or a claim GUID.
 - Response will be a pointer to `map[string][]Claim` which the key being the entity ID and value being a list of claims for that entity.
@@ -87,7 +99,7 @@ res, err := req.Get()
 
 You can also call `NewGetClaims` on `Entity` type.
 
-**Methods**:
+###### Get claims methods:
 
 Request methods:
 
