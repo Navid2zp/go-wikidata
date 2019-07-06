@@ -17,6 +17,7 @@ Read more about wikidata API: https://www.wikidata.org/w/api.php
     - [Methods](#search-methods)
 - [Get Wikipedia Page Item](#get-wikipedia-page-item)
 - [Get Available Badges](#get-available-badges)
+- [License](#license)
 
 
 ### Install
