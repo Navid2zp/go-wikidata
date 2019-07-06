@@ -30,7 +30,7 @@ req.SetSites([]string{"enwiki", "fawiki"})
 res, err := req.Get()
 ```
 
-**Methods**:
+###### Get entity methods:
 
 Request methods:
 
@@ -69,7 +69,7 @@ claimReq, err := res["Q1"].NewGetClaims()
 Same as calling `NewGetClaims`. See "Get Claims" for more information.
 
 
-### Get Claims
+###### Get claims methods:
 
 - Receives an entity ID or a claim GUID.
 - Response will be a pointer to `map[string][]Claim` which the key being the entity ID and value being a list of claims for that entity.
@@ -120,7 +120,7 @@ req, err := gowikidata.NewSearch("abc", "en")
 res, err := req.Get()
 ```
 
-**Methods**:
+###### Search methods:
 
 Request methods:
 
