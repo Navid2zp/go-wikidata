@@ -1,0 +1,181 @@
+# go-wikidata
+Wikidata API bindings in golang.
+
+This package is suitable for retrieving data from wikidata database using its public API.
+Methods for updating, editing and adding to wikidata are not implemented (yet).
+
+Read more about wikidata API: https://www.wikidata.org/w/api.php
+
+
+### Install
+```
+go get github.com/Navid2zp/go-wikidata
+```
+
+### Available APIs
+
+#### Get Entities
+
+- Receives a list of entity ids.
+- Response will be a pointer to `map[string]Entity` which the key being the entity ID and "Entity" being the data for that entity.
+- WikiData action: `wbgetentities`
+- WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbgetentities
+```
+// Create a request
+req, err := gowikidata.NewGetEntities([]string{"Q1"})
+
+// Configuration such as props, sites and etc.
+req.SetSites([]string{"enwiki", "fawiki"})
+
+// Call get to make the request based on the configurations
+res, err := req.Get()
+```
+
+**Methods**:
+
+Request methods:
+
+```
+// Param: props
+// Default: info|sitelinks|aliases|labels|descriptions|claims|datatype
+req.SetProps([]string{"info", "claims"})
+
+// Param: sites
+req.SetSites([]string{"enwiki", "fawiki"})
+
+// Param: sitefilter
+req.SetSiteFilter([]string{"enwiki", "fawiki"})
+
+// Param: normalize
+req.SetNormalize(true)
+
+// Param: languagefallback
+req.SetLanguageFallback(true)
+
+// Param: languages
+req.SetLanguages([]string{"en", "fa"})
+
+// Param: redirects
+req.SetRedirects(true)
+
+// Param: titles
+req.SetTitles([]string{"title", "another"})
+```
+
+Response methods:
+```
+claimReq, err := res["Q1"].NewGetClaims()
+```
+
+Same as calling `NewGetClaims`. See "Get Claims" for more information.
+
+
+#### Get Claims
+
+- Receives an entity ID or a claim GUID.
+- Response will be a pointer to `map[string][]Claim` which the key being the entity ID and value being a list of claims for that entity.
+- WikiData action: `wbgetclaims`
+- WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbgetclaims
+
+```
+// Create a request
+// You must either provide entity id or a claim GUID
+req, err := gowikidata.NewGetClaims("Q1", "")
+
+// Call get to make the request based on the configurations
+res, err := req.Get()
+```
+
+You can also call `NewGetClaims` on `Entity` type.
+
+**Methods**:
+
+Request methods:
+
+```
+// Param: props
+// Default: references
+req.SetProps([]string{"references"})
+
+// Param: rank
+// One of the following values: deprecated, normal, preferred
+req.SetRank("normal")
+
+// Param: property
+req.SetProperty("P31")
+```
+
+#### Search
+
+- Receives search string and search language string.
+- Response will be a pointer to `SearchEntitiesResponse` type containing the result as `SearchEntitiesResponse.SearchResult`.
+- WikiData action: `wbsearchentities`
+- WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities
+
+```
+// Create a request
+// Both search and language are required
+req, err := gowikidata.NewSearch("abc", "en")
+
+// Call get to make the request based on the configurations
+res, err := req.Get()
+```
+
+**Methods**:
+
+Request methods:
+
+```
+// Param: props
+// Default: url
+req.SetProps([]string{"url"})
+
+// Param: limit
+// Default: 7
+req.SetLimit(10)
+
+// Param: strictlanguage
+req.SetStrictLanguage(true)
+
+// Param: type
+// One of the following values: item, property, lexeme, form, sense
+// Default: item
+req.SetType("item")
+
+// Param: continue
+// Default: 0
+req.SetContinue(7)
+```
+
+Response methods:
+```
+// Next page of results
+// new coninue = limit + previous continue value
+nextPage, err := res.Next()
+```
+
+#### Get Wikipedia Page Item
+
+Find Wikipedia page item ID in wikidata by page slug (https://en.wikipedia.org/wiki/[SLUG]).
+
+```
+wikiDataID, err := gowikidata.GetPageItem("Earth")
+fmt.Println(wikiDataID) // "Q2"
+```
+
+
+
+#### Get Available Badges
+
+- Returns a pointer to a list of strings.
+- WikiData action: `wbavailablebadges`
+- WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbavailablebadges
+
+```
+badges, err := gowikidata.GetAvailableBadges()
+```
+
+License
+----
+
+MIT
