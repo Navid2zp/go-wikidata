@@ -8,6 +8,7 @@ import (
 
 var WikipediaQueryURL = "https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=%s&format=json"
 var WikiDataAPIURL = "https://www.wikidata.org/w/api.php?action=%s&format=json"
+var ImageResizerURL = "https://commons.wikimedia.org/w/thumb.php?width=%d&f=%s"
 
 // Gets Wikipedia page item ID in wikidata
 func GetPageItem(slug string) (string, error) {
@@ -267,3 +268,7 @@ func (r *SearchEntitiesResponse) Next() (*SearchEntitiesResponse, error) {
 	return response, err
 }
 
+
+func ImageResizer(imageName string, size int) string {
+	return fmt.Sprintf(ImageResizerURL, size, imageName)
+}

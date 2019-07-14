@@ -79,8 +79,11 @@ type DataValue struct {
 }
 
 type DynamicDataValue struct {
-	Data interface{}
-	Type string
+	Data        interface{}
+	S           string
+	I           int
+	ValueFields DataValueFields
+	Type        string
 }
 
 type DataValueFields struct {

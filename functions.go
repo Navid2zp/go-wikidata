@@ -35,7 +35,10 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	// If value starts with " and also ends with "
 	// Then its string
 	if string(s[0]) == "\"" && string(s[len(s)-1]) == "\"" {
-		d.Data = s
+		// Remove extra " from both sides of the string.
+		cleaned := s[1:len(s)-1]
+		d.Data = cleaned
+		d.S = cleaned
 		d.Type = "String"
 	} else {
 		// If its int
@@ -49,10 +52,12 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 				return err
 			}
 			d.Type = "DataValueFields"
+			d.ValueFields = values
 			d.Data = values
 		} else {
 			// set value
 			d.Type = "Int"
+			d.I = i
 			d.Data = i
 		}
 	}
