@@ -153,7 +153,6 @@ func (r *WikiDataGetClaimsRequest) SetProps(props []string) {
 func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 	responseData := GetClaimsResponse{}
 	res, err := easyreq.Make("GET", r.URL, nil, "", "json", &responseData, nil)
-	fmt.Println(r.URL)
 	if err != nil {
 		return nil, err
 	}
