@@ -134,8 +134,8 @@ func (e *Entity) NewGetClaims() (*WikiDataGetClaimsRequest, error) {
 }
 
 // Param: property
-func (r *WikiDataGetClaimsRequest) SetProperty(properties []string) {
-	r.setParam("property", &properties)
+func (r *WikiDataGetClaimsRequest) SetProperty(property string) {
+	r.setParam("property", &[]string{property})
 }
 
 // Param: rank
