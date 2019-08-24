@@ -63,3 +63,11 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	}
 	return
 }
+
+func (e *Entity) GetDescription(languageCode string) string {
+	return e.Descriptions[languageCode].Value
+}
+
+func (e *Entity) GetLabel(languageCode string) string {
+	return e.Labels[languageCode].Value
+}
