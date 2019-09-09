@@ -231,7 +231,6 @@ func (r *WikiDataSearchEntitiesRequest) SetContinue(c int) {
 func (r *WikiDataSearchEntitiesRequest) Get() (*SearchEntitiesResponse, error) {
 	responseData := SearchEntitiesResponse{}
 	res, err := easyreq.Make("GET", r.URL, nil, "", "json", &responseData, nil)
-	fmt.Println(r.URL)
 	if err != nil {
 		return nil, err
 	}
