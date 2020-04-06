@@ -32,7 +32,7 @@ go get github.com/Navid2zp/go-wikidata
 - Response will be a pointer to `map[string]Entity` which the key being the entity ID and "Entity" being the data for that entity.
 - WikiData action: `wbgetentities`
 - WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbgetentities
-```
+```go
 // Create a request
 req, err := gowikidata.NewGetEntities([]string{"Q1"})
 
@@ -47,7 +47,7 @@ res, err := req.Get()
 
 Request methods:
 
-```
+```go
 // Param: props
 // Default: info|sitelinks|aliases|labels|descriptions|claims|datatype
 req.SetProps([]string{"info", "claims"})
@@ -75,7 +75,7 @@ req.SetTitles([]string{"title", "another"})
 ```
 
 Response methods:
-```
+```go
 claimReq, err := res["Q1"].NewGetClaims()
 ```
 
@@ -89,7 +89,7 @@ Same as calling `NewGetClaims`. See "Get Claims" for more information.
 - WikiData action: `wbgetclaims`
 - WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbgetclaims
 
-```
+```go
 // Create a request
 // You must either provide entity id or a claim GUID
 req, err := gowikidata.NewGetClaims("Q1", "")
@@ -104,7 +104,7 @@ You can also call `NewGetClaims` on `Entity` type.
 
 Request methods:
 
-```
+```go
 // Param: props
 // Default: references
 req.SetProps([]string{"references"})
@@ -124,7 +124,7 @@ req.SetProperty("P31")
 - WikiData action: `wbsearchentities`
 - WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities
 
-```
+```go
 // Create a request
 // Both search and language are required
 req, err := gowikidata.NewSearch("abc", "en")
@@ -137,7 +137,7 @@ res, err := req.Get()
 
 Request methods:
 
-```
+```go
 // Param: props
 // Default: url
 req.SetProps([]string{"url"})
@@ -160,7 +160,7 @@ req.SetContinue(7)
 ```
 
 Response methods:
-```
+```go
 // Next page of results
 // new coninue = limit + previous continue value
 nextPage, err := res.Next()
@@ -170,7 +170,7 @@ nextPage, err := res.Next()
 
 Find Wikipedia page item ID in wikidata by page slug (https://en.wikipedia.org/wiki/[SLUG]).
 
-```
+```go
 wikiDataID, err := gowikidata.GetPageItem("Earth")
 fmt.Println(wikiDataID) // "Q2"
 ```
@@ -183,7 +183,7 @@ fmt.Println(wikiDataID) // "Q2"
 - WikiData action: `wbavailablebadges`
 - WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbavailablebadges
 
-```
+```go
 badges, err := gowikidata.GetAvailableBadges()
 ```
 
