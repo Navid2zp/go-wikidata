@@ -36,7 +36,7 @@ go get github.com/Navid2zp/go-wikidata
 // Create a request
 req, err := gowikidata.NewGetEntities([]string{"Q1"})
 
-// Configuration such as props, sites and etc.
+// Configurations such as props, sites and etc.
 req.SetSites([]string{"enwiki", "fawiki"})
 
 // Call get to make the request based on the configurations
