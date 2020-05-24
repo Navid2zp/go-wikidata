@@ -29,6 +29,7 @@ func (r *WikiDataSearchEntitiesRequest) setParam(param string, values *[]string)
 	r.URL += createParam(param, *values)
 }
 
+// Unmarshal json to DynamicDataValue
 func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	s := string(b)
 
@@ -36,7 +37,7 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	// Then its string
 	if string(s[0]) == "\"" && string(s[len(s)-1]) == "\"" {
 		// Remove extra " from both sides of the string.
-		cleaned := s[1:len(s)-1]
+		cleaned := s[1 : len(s)-1]
 		d.Data = cleaned
 		d.S = cleaned
 		d.Type = "String"
@@ -64,10 +65,12 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
+// Returns entity description in the given language code
 func (e *Entity) GetDescription(languageCode string) string {
 	return e.Descriptions[languageCode].Value
 }
 
+// Returns entity label in the given language code
 func (e *Entity) GetLabel(languageCode string) string {
 	return e.Labels[languageCode].Value
 }

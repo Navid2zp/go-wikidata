@@ -6,13 +6,15 @@ import (
 	"github.com/Navid2zp/easyreq"
 )
 
-var WikipediaQueryURL = "https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=%s&format=json"
-var WikiDataAPIURL = "https://www.wikidata.org/w/api.php?action=%s&format=json"
-var ImageResizerURL = "https://commons.wikimedia.org/w/thumb.php?width=%d&f=%s"
+const (
+	wikipediaQueryURL = "https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=%s&format=json"
+	wikiDataAPIURL    = "https://www.wikidata.org/w/api.php?action=%s&format=json"
+	imageResizerURL   = "https://commons.wikimedia.org/w/thumb.php?width=%d&f=%s"
+)
 
 // Gets Wikipedia page item ID in wikidata
 func GetPageItem(slug string) (string, error) {
-	url := fmt.Sprintf(WikipediaQueryURL, slug)
+	url := fmt.Sprintf(wikipediaQueryURL, slug)
 
 	wikipediaQuery := WikiPediaQuery{}
 	res, err := easyreq.Make("get", url, nil, "", "json", &wikipediaQuery, nil)
@@ -42,7 +44,7 @@ func NewGetEntities(ids []string) (*WikiDataGetEntitiesRequest, error) {
 	}
 
 	req := WikiDataGetEntitiesRequest{
-		URL: fmt.Sprintf(WikiDataAPIURL, "wbgetentities"),
+		URL: fmt.Sprintf(wikiDataAPIURL, "wbgetentities"),
 	}
 	req.setParam("ids", &ids)
 	return &req, nil
@@ -120,7 +122,7 @@ func NewGetClaims(entity, claim string) (*WikiDataGetClaimsRequest, error) {
 	}
 
 	req := WikiDataGetClaimsRequest{
-		URL: fmt.Sprintf(WikiDataAPIURL, "wbgetclaims"),
+		URL: fmt.Sprintf(wikiDataAPIURL, "wbgetclaims"),
 	}
 	if entity != "" {
 		req.setParam("entity", &[]string{entity})
@@ -168,7 +170,7 @@ func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 // WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbavailablebadges
 func GetAvailableBadges() (*[]string, error) {
 	var data []string
-	url := fmt.Sprintf(WikiDataAPIURL, "wbavailablebadges")
+	url := fmt.Sprintf(wikiDataAPIURL, "wbavailablebadges")
 	res, err := easyreq.Make("GET", url, nil, "", "json", &data, nil)
 	if err != nil {
 		return nil, err
@@ -185,7 +187,7 @@ func GetAvailableBadges() (*[]string, error) {
 // WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities
 func NewSearch(search, language string) (*WikiDataSearchEntitiesRequest, error) {
 	req := WikiDataSearchEntitiesRequest{
-		URL: fmt.Sprintf(WikiDataAPIURL, "wbsearchentities"),
+		URL:      fmt.Sprintf(wikiDataAPIURL, "wbsearchentities"),
 		Language: language,
 		// default api value
 		Limit: 7,
@@ -267,7 +269,6 @@ func (r *SearchEntitiesResponse) Next() (*SearchEntitiesResponse, error) {
 	return response, err
 }
 
-
 func ImageResizer(imageName string, size int) string {
-	return fmt.Sprintf(ImageResizerURL, size, imageName)
+	return fmt.Sprintf(imageResizerURL, size, imageName)
 }

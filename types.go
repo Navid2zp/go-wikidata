@@ -1,13 +1,16 @@
 package gowikidata
 
+// Request type for wikidata entities
 type WikiDataGetEntitiesRequest struct {
 	URL string
 }
 
+// Request type for wikidata claims
 type WikiDataGetClaimsRequest struct {
 	URL string
 }
 
+// Request type for wikidata entities search
 type WikiDataSearchEntitiesRequest struct {
 	URL            string
 	Limit          int
@@ -18,6 +21,7 @@ type WikiDataSearchEntitiesRequest struct {
 	Search         string
 }
 
+// wikidata entities struct
 type Entity struct {
 	ID           string                 `json:"id"`
 	PageID       int                    `json:"pageid"`
@@ -33,29 +37,34 @@ type Entity struct {
 	SiteLinks    map[string]SiteLink    `json:"sitelinks"`
 }
 
+// wikidata labels struct
 type Label struct {
 	Language    string `json:"language"`
 	Value       string `json:"value"`
 	ForLanguage string `json:"for-language"`
 }
 
+// Description struct for wikidata descriptions
 type Description struct {
 	Language    string `json:"language"`
 	Value       string `json:"value"`
 	ForLanguage string `json:"for-language"`
 }
 
+// wikidata aliases struct
 type Alias struct {
 	Language string `json:"language"`
 	Value    string `json:"value"`
 }
 
+// wikidata site links struct
 type SiteLink struct {
 	Site   string   `json:"site"`
 	Title  string   `json:"title"`
 	Badges []string `json:"badges"`
 }
 
+// wikidata claims struct
 type Claim struct {
 	ID              string            `json:"id"`
 	Rank            string            `json:"rank"`
@@ -65,6 +74,7 @@ type Claim struct {
 	QualifiersOrder []string          `json:"qualifiers-order"`
 }
 
+// wikidata snak struct
 type Snak struct {
 	SnakType  string    `json:"snaktype"`
 	Property  string    `json:"property"`
@@ -73,11 +83,14 @@ type Snak struct {
 	DataValue DataValue `json:"datavalue"`
 }
 
+// wikidata values can be either string or a number
+// this struct will hold the value and the data
 type DataValue struct {
 	Type  string           `json:"type"`
 	Value DynamicDataValue `json:"value"`
 }
 
+// the actual struct for wikidata values
 type DynamicDataValue struct {
 	Data        interface{}
 	S           string
@@ -86,6 +99,7 @@ type DynamicDataValue struct {
 	Type        string
 }
 
+// wikidata value fields struct
 type DataValueFields struct {
 	EntityType    string  `json:"entity-type"`
 	NumericID     int     `json:"numeric-id"`
@@ -109,23 +123,25 @@ type DataValueFields struct {
 	Language      string  `json:"language"`
 }
 
+// wikidata references struct
 type Reference struct {
 	Hash       string            `json:"hash"`
 	Snaks      map[string][]Snak `json:"snaks"`
 	SnaksOrder []string          `json:"snaks-order"`
 }
 
+// entities response struct
 type GetEntitiesResponse struct {
 	Entities map[string]Entity `json:"entities"`
 	Success  uint              `json:"success"`
 }
 
+// claims response struct
 type GetClaimsResponse struct {
 	Claims map[string][]Claim `json:"claims"`
 }
 
-// Search
-
+// entities search struct
 type SearchEntity struct {
 	Repository  string      `json:"repository"`
 	ID          string      `json:"id"`
@@ -139,16 +155,19 @@ type SearchEntity struct {
 	DataType    string      `json:"datatype"`
 }
 
+// search match struct
 type SearchMatch struct {
 	Type     string `json:"type"`
 	Language string `json:"language"`
 	Text     string `json:"text"`
 }
 
+// search info struct
 type SearchInfo struct {
 	Search string `json:"search"`
 }
 
+// entities search response struct
 type SearchEntitiesResponse struct {
 	SearchInfo      SearchInfo     `json:"searchinfo"`
 	SearchResult    []SearchEntity `json:"search"`
@@ -158,6 +177,7 @@ type SearchEntitiesResponse struct {
 	SearchRequest   WikiDataSearchEntitiesRequest
 }
 
+// wikipedia query struct
 type WikiPediaQuery struct {
 	BatchComplete string `json:"batchcomplete"`
 	Query         struct {
