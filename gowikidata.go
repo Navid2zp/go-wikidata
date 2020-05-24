@@ -173,8 +173,8 @@ func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 // GetAvailableBadges returns a pointer to a list of strings.
 // WikiData action: wbavailablebadges
 // WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbavailablebadges
-func GetAvailableBadges() (*[]string, error) {
-	var data []string
+func GetAvailableBadges() ([]string, error) {
+	var data struct{Badges []string}
 	url := fmt.Sprintf(wikiDataAPIURL, "wbavailablebadges")
 	res, err := easyreq.Make("GET", url, nil, "", "json", &data, nil)
 	if err != nil {
@@ -183,7 +183,7 @@ func GetAvailableBadges() (*[]string, error) {
 	if res.StatusCode() != 200 {
 		return nil, errors.New("request failed with status code " + string(res.StatusCode()))
 	}
-	return &data, nil
+	return data.Badges, nil
 }
 
 // NewSearch creates a new request for entities search and returns response or an error
