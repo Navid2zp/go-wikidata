@@ -12,7 +12,7 @@ const (
 	imageResizerURL   = "https://commons.wikimedia.org/w/thumb.php?width=%d&f=%s"
 )
 
-// Gets Wikipedia page item ID in wikidata
+// GetPageItem returns Wikipedia page item ID
 func GetPageItem(slug string) (string, error) {
 	url := fmt.Sprintf(wikipediaQueryURL, slug)
 
@@ -35,6 +35,7 @@ func GetPageItem(slug string) (string, error) {
 	return item, nil
 }
 
+// NewGetEntities creates and returns a new WikiDataGetEntitiesRequest
 // Use this function to initialize a request.
 // It will return a pointer to WikiDataGetEntitiesRequest.
 // You can make configurations on response.
@@ -50,17 +51,17 @@ func NewGetEntities(ids []string) (*WikiDataGetEntitiesRequest, error) {
 	return &req, nil
 }
 
-// Param: sites
+// SetSites sets sites parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetSites(sites []string) {
 	r.setParam("sites", &sites)
 }
 
-// Param: titles
+// SetTitles sets titles parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetTitles(titles []string) {
 	r.setParam("titles", &titles)
 }
 
-// Param: redirects
+// SetRedirects sets redirects parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetRedirects(redirect bool) {
 	redirectString := "yes"
 	if !redirect {
@@ -69,36 +70,37 @@ func (r *WikiDataGetEntitiesRequest) SetRedirects(redirect bool) {
 	r.URL += "&redirects=" + redirectString
 }
 
-// Param: props
+// SetProps sets props parameter for entities request
 // Default: info|sitelinks|aliases|labels|descriptions|claims|datatype
 func (r *WikiDataGetEntitiesRequest) SetProps(props []string) {
 	r.setParam("props", &props)
 }
 
-// Param: languages
+// SetLanguages sets languages parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetLanguages(languages []string) {
 	r.setParam("languages", &languages)
 }
 
-// Param: languagefallback
+// SetLanguageFallback sets languagefallback parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetLanguageFallback(fallback bool) {
 	if fallback {
 		r.URL += "&languagefallback="
 	}
 }
 
-// Param: normalize
+// SetNormalize sets normalize parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetNormalize(normalize bool) {
 	if normalize {
 		r.URL += "&normalize="
 	}
 }
 
-// Param: sitefilter
+// SetSiteFilter sets sitefilter parameter for entities request
 func (r *WikiDataGetEntitiesRequest) SetSiteFilter(sites []string) {
 	r.setParam("sitefilter", &sites)
 }
 
+// Get makes a entities request and returns the response or an error
 // Call this function after you finished configuring the request.
 // It will send the request and unmarshales the response.
 func (r *WikiDataGetEntitiesRequest) Get() (*map[string]Entity, error) {
@@ -113,6 +115,7 @@ func (r *WikiDataGetEntitiesRequest) Get() (*map[string]Entity, error) {
 	return &responseData.Entities, nil
 }
 
+// NewGetClaims creates a new claim request for the given entity or claim
 // WikiData action: wbgetclaims
 // WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbgetclaims
 // Either entity or claim must be provided
@@ -132,27 +135,29 @@ func NewGetClaims(entity, claim string) (*WikiDataGetClaimsRequest, error) {
 	return &req, nil
 }
 
+// NewGetClaims creates a new claim request for an entity
 func (e *Entity) NewGetClaims() (*WikiDataGetClaimsRequest, error) {
 	return NewGetClaims(e.ID, "")
 }
 
-// Param: property
+// SetProperty sets property parameter for claims request
 func (r *WikiDataGetClaimsRequest) SetProperty(property string) {
 	r.setParam("property", &[]string{property})
 }
 
-// Param: rank
+// SetRank sets rank parameter for claims request
 // One of the following values: deprecated, normal, preferred
 func (r *WikiDataGetClaimsRequest) SetRank(rank string) {
 	r.setParam("rank", &[]string{rank})
 }
 
-// Param: props
+// SetProps sets props parameter for claims request
 // Default: references
 func (r *WikiDataGetClaimsRequest) SetProps(props []string) {
 	r.setParam("props", &props)
 }
 
+// Get creates a new request for claims and returns the response or an error
 func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 	responseData := GetClaimsResponse{}
 	res, err := easyreq.Make("GET", r.URL, nil, "", "json", &responseData, nil)
@@ -165,7 +170,7 @@ func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 	return &responseData.Claims, nil
 }
 
-// Returns a pointer to a list of strings.
+// GetAvailableBadges returns a pointer to a list of strings.
 // WikiData action: wbavailablebadges
 // WikiData API page: https://www.wikidata.org/w/api.php?action=help&modules=wbavailablebadges
 func GetAvailableBadges() (*[]string, error) {
@@ -181,6 +186,7 @@ func GetAvailableBadges() (*[]string, error) {
 	return &data, nil
 }
 
+// NewSearch creates a new request for entities search and returns response or an error
 // Create a request
 // Both search and language are required
 // WikiData action: wbsearchentities
@@ -197,39 +203,40 @@ func NewSearch(search, language string) (*WikiDataSearchEntitiesRequest, error) 
 	return &req, nil
 }
 
-// Param: limit
+// SetLimit sets limit parameter
 // Default: 7
 func (r *WikiDataSearchEntitiesRequest) SetLimit(limit int) {
 	r.Limit = limit
 	r.setParam("limit", &[]string{string(limit)})
 }
 
-// Param: strictlanguage
+// SetStrictLanguage sets strictlanguage parameter
 func (r *WikiDataSearchEntitiesRequest) SetStrictLanguage(strictLanguage bool) {
 	if strictLanguage {
 		r.URL += "&strictlanguage="
 	}
 }
 
-// Param: type
+// SetType sets type parameter
 // One of the following values: item, property, lexeme, form, sense
 // Default: item
 func (r *WikiDataSearchEntitiesRequest) SetType(t string) {
 	r.setParam("type", &[]string{t})
 }
 
-// Param: props
+// SetProps sets props parameter
 // Default: url
 func (r *WikiDataSearchEntitiesRequest) SetProps(props []string) {
 	r.setParam("props", &props)
 }
 
-// Param: continue
+// SetContinue sets continue parameter
 // Default: 0
 func (r *WikiDataSearchEntitiesRequest) SetContinue(c int) {
 	r.setParam("continue", &[]string{string(c)})
 }
 
+// Get makes a entity search request and returns the response or an error
 func (r *WikiDataSearchEntitiesRequest) Get() (*SearchEntitiesResponse, error) {
 	responseData := SearchEntitiesResponse{}
 	res, err := easyreq.Make("GET", r.URL, nil, "", "json", &responseData, nil)
@@ -269,6 +276,7 @@ func (r *SearchEntitiesResponse) Next() (*SearchEntitiesResponse, error) {
 	return response, err
 }
 
+// ImageResizer returns the url for resizing a wikimedia image to the given size
 func ImageResizer(imageName string, size int) string {
 	return fmt.Sprintf(imageResizerURL, size, imageName)
 }

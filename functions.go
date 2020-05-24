@@ -29,7 +29,8 @@ func (r *WikiDataSearchEntitiesRequest) setParam(param string, values *[]string)
 	r.URL += createParam(param, *values)
 }
 
-// Unmarshal json to DynamicDataValue
+// UnmarshalJSON unmarshales given json result to DynamicDataValue
+// It's main job is to find the data type and set the fields accordingly
 func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	s := string(b)
 
@@ -65,12 +66,12 @@ func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
-// Returns entity description in the given language code
+// GetDescription returns entity description in the given language code
 func (e *Entity) GetDescription(languageCode string) string {
 	return e.Descriptions[languageCode].Value
 }
 
-// Returns entity label in the given language code
+// GetLabel returns entity label in the given language code
 func (e *Entity) GetLabel(languageCode string) string {
 	return e.Labels[languageCode].Value
 }

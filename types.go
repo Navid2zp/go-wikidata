@@ -1,16 +1,16 @@
 package gowikidata
 
-// Request type for wikidata entities
+// WikiDataGetEntitiesRequest stores entities request url
 type WikiDataGetEntitiesRequest struct {
 	URL string
 }
 
-// Request type for wikidata claims
+// WikiDataGetClaimsRequest stores claims request url
 type WikiDataGetClaimsRequest struct {
 	URL string
 }
 
-// Request type for wikidata entities search
+// WikiDataSearchEntitiesRequest stores parameters for entities search
 type WikiDataSearchEntitiesRequest struct {
 	URL            string
 	Limit          int
@@ -21,7 +21,7 @@ type WikiDataSearchEntitiesRequest struct {
 	Search         string
 }
 
-// wikidata entities struct
+// Entity represents wikidata entities data
 type Entity struct {
 	ID           string                 `json:"id"`
 	PageID       int                    `json:"pageid"`
@@ -37,34 +37,34 @@ type Entity struct {
 	SiteLinks    map[string]SiteLink    `json:"sitelinks"`
 }
 
-// wikidata labels struct
+// Label represents wikidata labels data
 type Label struct {
 	Language    string `json:"language"`
 	Value       string `json:"value"`
 	ForLanguage string `json:"for-language"`
 }
 
-// Description struct for wikidata descriptions
+// Description represents wikidata descriptions data
 type Description struct {
 	Language    string `json:"language"`
 	Value       string `json:"value"`
 	ForLanguage string `json:"for-language"`
 }
 
-// wikidata aliases struct
+// Alias represents wikidata aliases data
 type Alias struct {
 	Language string `json:"language"`
 	Value    string `json:"value"`
 }
 
-// wikidata site links struct
+// SiteLink represents wikidata site links data
 type SiteLink struct {
 	Site   string   `json:"site"`
 	Title  string   `json:"title"`
 	Badges []string `json:"badges"`
 }
 
-// wikidata claims struct
+// Claim represents wikidata claims data
 type Claim struct {
 	ID              string            `json:"id"`
 	Rank            string            `json:"rank"`
@@ -74,7 +74,7 @@ type Claim struct {
 	QualifiersOrder []string          `json:"qualifiers-order"`
 }
 
-// wikidata snak struct
+// Snak represents wikidata snak values
 type Snak struct {
 	SnakType  string    `json:"snaktype"`
 	Property  string    `json:"property"`
@@ -83,14 +83,15 @@ type Snak struct {
 	DataValue DataValue `json:"datavalue"`
 }
 
-// wikidata values can be either string or a number
-// this struct will hold the value and the data
+// DataValue represents wikidata values
+// Wikidata values can be either string or number
+// It will store the data type so you can work with it accordingly
 type DataValue struct {
 	Type  string           `json:"type"`
 	Value DynamicDataValue `json:"value"`
 }
 
-// the actual struct for wikidata values
+// DynamicDataValue represents wikidata values for DataValue struct
 type DynamicDataValue struct {
 	Data        interface{}
 	S           string
@@ -99,7 +100,7 @@ type DynamicDataValue struct {
 	Type        string
 }
 
-// wikidata value fields struct
+// DataValueFields represents wikidata value fields
 type DataValueFields struct {
 	EntityType    string  `json:"entity-type"`
 	NumericID     int     `json:"numeric-id"`
@@ -123,25 +124,25 @@ type DataValueFields struct {
 	Language      string  `json:"language"`
 }
 
-// wikidata references struct
+// Reference represents wikidata references
 type Reference struct {
 	Hash       string            `json:"hash"`
 	Snaks      map[string][]Snak `json:"snaks"`
 	SnaksOrder []string          `json:"snaks-order"`
 }
 
-// entities response struct
+// GetEntitiesResponse represents wikidata entities response
 type GetEntitiesResponse struct {
 	Entities map[string]Entity `json:"entities"`
 	Success  uint              `json:"success"`
 }
 
-// claims response struct
+// GetClaimsResponse represents wikidata claims response
 type GetClaimsResponse struct {
 	Claims map[string][]Claim `json:"claims"`
 }
 
-// entities search struct
+// SearchEntity represents wikidata entities search
 type SearchEntity struct {
 	Repository  string      `json:"repository"`
 	ID          string      `json:"id"`
@@ -155,19 +156,19 @@ type SearchEntity struct {
 	DataType    string      `json:"datatype"`
 }
 
-// search match struct
+// SearchMatch represents wikidata search match value
 type SearchMatch struct {
 	Type     string `json:"type"`
 	Language string `json:"language"`
 	Text     string `json:"text"`
 }
 
-// search info struct
+// SearchInfo represents wikidata search info
 type SearchInfo struct {
 	Search string `json:"search"`
 }
 
-// entities search response struct
+// SearchEntitiesResponse represents wikidata entities search response
 type SearchEntitiesResponse struct {
 	SearchInfo      SearchInfo     `json:"searchinfo"`
 	SearchResult    []SearchEntity `json:"search"`
@@ -177,7 +178,7 @@ type SearchEntitiesResponse struct {
 	SearchRequest   WikiDataSearchEntitiesRequest
 }
 
-// wikipedia query struct
+// WikiPediaQuery represents wikipedia query
 type WikiPediaQuery struct {
 	BatchComplete string `json:"batchcomplete"`
 	Query         struct {
