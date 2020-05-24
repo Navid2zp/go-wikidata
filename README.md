@@ -1,4 +1,10 @@
 # go-wikidata
+
+[![GoDoc](https://godoc.org/github.com/Navid2zp/go-wikidata?status.svg)](https://pkg.go.dev/github.com/Navid2zp/go-wikidata?tab=doc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Navid2zp/go-wikidata)](https://goreportcard.com/report/github.com/Navid2zp/go-wikidata)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+
+
 Wikidata API bindings in golang.
 
 This package is suitable for retrieving data from wikidata database using its public API.
