@@ -1,6 +1,7 @@
 # go-wikidata
 
 [![GoDoc](https://godoc.org/github.com/Navid2zp/go-wikidata?status.svg)](https://pkg.go.dev/github.com/Navid2zp/go-wikidata?tab=doc)
+[![GoDoc](https://api.travis-ci.org/Navid2zp/go-wikidata.svg?branch=master)](https://travis-ci.org/github/Navid2zp/go-wikidata)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Navid2zp/go-wikidata)](https://goreportcard.com/report/github.com/Navid2zp/go-wikidata)
 [![GitHub license](https://img.shields.io/github/license/Navid2zp/go-wikidata.svg)](https://github.com/Navid2zp/go-wikidata/blob/master/LICENSE)
 
