@@ -52,52 +52,60 @@ func NewGetEntities(ids []string) (*WikiDataGetEntitiesRequest, error) {
 }
 
 // SetSites sets sites parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetSites(sites []string) {
+func (r *WikiDataGetEntitiesRequest) SetSites(sites []string) *WikiDataGetEntitiesRequest {
 	r.setParam("sites", &sites)
+	return r
 }
 
 // SetTitles sets titles parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetTitles(titles []string) {
+func (r *WikiDataGetEntitiesRequest) SetTitles(titles []string) *WikiDataGetEntitiesRequest {
 	r.setParam("titles", &titles)
+	return r
 }
 
 // SetRedirects sets redirects parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetRedirects(redirect bool) {
+func (r *WikiDataGetEntitiesRequest) SetRedirects(redirect bool) *WikiDataGetEntitiesRequest {
 	redirectString := "yes"
 	if !redirect {
 		redirectString = "no"
 	}
 	r.URL += "&redirects=" + redirectString
+	return r
 }
 
 // SetProps sets props parameter for entities request
 // Default: info|sitelinks|aliases|labels|descriptions|claims|datatype
-func (r *WikiDataGetEntitiesRequest) SetProps(props []string) {
+func (r *WikiDataGetEntitiesRequest) SetProps(props []string) *WikiDataGetEntitiesRequest {
 	r.setParam("props", &props)
+	return r
 }
 
 // SetLanguages sets languages parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetLanguages(languages []string) {
+func (r *WikiDataGetEntitiesRequest) SetLanguages(languages []string) *WikiDataGetEntitiesRequest {
 	r.setParam("languages", &languages)
+	return r
 }
 
 // SetLanguageFallback sets languagefallback parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetLanguageFallback(fallback bool) {
+func (r *WikiDataGetEntitiesRequest) SetLanguageFallback(fallback bool) *WikiDataGetEntitiesRequest {
 	if fallback {
 		r.URL += "&languagefallback="
 	}
+	return r
 }
 
 // SetNormalize sets normalize parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetNormalize(normalize bool) {
+func (r *WikiDataGetEntitiesRequest) SetNormalize(normalize bool) *WikiDataGetEntitiesRequest {
 	if normalize {
 		r.URL += "&normalize="
 	}
+	return r
 }
 
 // SetSiteFilter sets sitefilter parameter for entities request
-func (r *WikiDataGetEntitiesRequest) SetSiteFilter(sites []string) {
+func (r *WikiDataGetEntitiesRequest) SetSiteFilter(sites []string) *WikiDataGetEntitiesRequest {
 	r.setParam("sitefilter", &sites)
+	return r
 }
 
 // Get makes a entities request and returns the response or an error
@@ -141,20 +149,23 @@ func (e *Entity) NewGetClaims() (*WikiDataGetClaimsRequest, error) {
 }
 
 // SetProperty sets property parameter for claims request
-func (r *WikiDataGetClaimsRequest) SetProperty(property string) {
+func (r *WikiDataGetClaimsRequest) SetProperty(property string) *WikiDataGetClaimsRequest {
 	r.setParam("property", &[]string{property})
+	return r
 }
 
 // SetRank sets rank parameter for claims request
 // One of the following values: deprecated, normal, preferred
-func (r *WikiDataGetClaimsRequest) SetRank(rank string) {
+func (r *WikiDataGetClaimsRequest) SetRank(rank string) *WikiDataGetClaimsRequest {
 	r.setParam("rank", &[]string{rank})
+	return r
 }
 
 // SetProps sets props parameter for claims request
 // Default: references
-func (r *WikiDataGetClaimsRequest) SetProps(props []string) {
+func (r *WikiDataGetClaimsRequest) SetProps(props []string) *WikiDataGetClaimsRequest {
 	r.setParam("props", &props)
+	return r
 }
 
 // Get creates a new request for claims and returns the response or an error
@@ -205,35 +216,40 @@ func NewSearch(search, language string) (*WikiDataSearchEntitiesRequest, error) 
 
 // SetLimit sets limit parameter
 // Default: 7
-func (r *WikiDataSearchEntitiesRequest) SetLimit(limit int) {
+func (r *WikiDataSearchEntitiesRequest) SetLimit(limit int) *WikiDataSearchEntitiesRequest {
 	r.Limit = limit
 	r.setParam("limit", &[]string{string(limit)})
+	return r
 }
 
 // SetStrictLanguage sets strictlanguage parameter
-func (r *WikiDataSearchEntitiesRequest) SetStrictLanguage(strictLanguage bool) {
+func (r *WikiDataSearchEntitiesRequest) SetStrictLanguage(strictLanguage bool) *WikiDataSearchEntitiesRequest {
 	if strictLanguage {
 		r.URL += "&strictlanguage="
 	}
+	return r
 }
 
 // SetType sets type parameter
 // One of the following values: item, property, lexeme, form, sense
 // Default: item
-func (r *WikiDataSearchEntitiesRequest) SetType(t string) {
+func (r *WikiDataSearchEntitiesRequest) SetType(t string) *WikiDataSearchEntitiesRequest {
 	r.setParam("type", &[]string{t})
+	return r
 }
 
 // SetProps sets props parameter
 // Default: url
-func (r *WikiDataSearchEntitiesRequest) SetProps(props []string) {
+func (r *WikiDataSearchEntitiesRequest) SetProps(props []string) *WikiDataSearchEntitiesRequest {
 	r.setParam("props", &props)
+	return r
 }
 
 // SetContinue sets continue parameter
 // Default: 0
-func (r *WikiDataSearchEntitiesRequest) SetContinue(c int) {
+func (r *WikiDataSearchEntitiesRequest) SetContinue(c int) *WikiDataSearchEntitiesRequest {
 	r.setParam("continue", &[]string{string(c)})
+	return r
 }
 
 // Get makes a entity search request and returns the response or an error

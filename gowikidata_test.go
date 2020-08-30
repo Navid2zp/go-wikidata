@@ -6,6 +6,7 @@ import (
 
 func TestNewGetEntities(t *testing.T) {
 	req, _ := NewGetEntities([]string{"Q1"})
+	req.SetSites([]string{"enwiki", "fawiki"}).SetNormalize(true)
 
 	entities, err := req.Get()
 	if err != nil {

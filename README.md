@@ -79,6 +79,10 @@ req.SetRedirects(true)
 
 // Param: titles
 req.SetTitles([]string{"title", "another"})
+
+
+// Method chaining is also supported
+req.SetNormalize(true).SetSites([]string{"enwiki", "fawiki"})
 ```
 
 Response methods:
