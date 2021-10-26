@@ -3,6 +3,8 @@ package gowikidata
 import (
 	"errors"
 	"fmt"
+	"strconv"
+
 	"github.com/Navid2zp/easyreq"
 )
 
@@ -23,7 +25,7 @@ func GetPageItem(slug string) (string, error) {
 	}
 
 	if res.StatusCode() != 200 {
-		return "", errors.New("request failed with status code " + string(res.StatusCode()))
+		return "", fmt.Errorf("request failed with status code %d", res.StatusCode())
 	}
 
 	item := ""
@@ -118,7 +120,7 @@ func (r *WikiDataGetEntitiesRequest) Get() (*map[string]Entity, error) {
 		return nil, err
 	}
 	if res.StatusCode() != 200 {
-		return nil, errors.New("request failed with status code " + string(res.StatusCode()))
+		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode())
 	}
 	return &responseData.Entities, nil
 }
@@ -176,7 +178,7 @@ func (r *WikiDataGetClaimsRequest) Get() (*map[string][]Claim, error) {
 		return nil, err
 	}
 	if res.StatusCode() != 200 {
-		return nil, errors.New("request failed with status code " + string(res.StatusCode()))
+		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode())
 	}
 	return &responseData.Claims, nil
 }
@@ -192,7 +194,7 @@ func GetAvailableBadges() ([]string, error) {
 		return nil, err
 	}
 	if res.StatusCode() != 200 {
-		return nil, errors.New("request failed with status code " + string(res.StatusCode()))
+		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode())
 	}
 	return data.Badges, nil
 }
@@ -218,7 +220,7 @@ func NewSearch(search, language string) (*WikiDataSearchEntitiesRequest, error) 
 // Default: 7
 func (r *WikiDataSearchEntitiesRequest) SetLimit(limit int) *WikiDataSearchEntitiesRequest {
 	r.Limit = limit
-	r.setParam("limit", &[]string{string(limit)})
+	r.setParam("limit", &[]string{strconv.Itoa(limit)})
 	return r
 }
 
@@ -248,7 +250,7 @@ func (r *WikiDataSearchEntitiesRequest) SetProps(props []string) *WikiDataSearch
 // SetContinue sets continue parameter
 // Default: 0
 func (r *WikiDataSearchEntitiesRequest) SetContinue(c int) *WikiDataSearchEntitiesRequest {
-	r.setParam("continue", &[]string{string(c)})
+	r.setParam("continue", &[]string{strconv.Itoa(c)})
 	return r
 }
 
@@ -260,7 +262,7 @@ func (r *WikiDataSearchEntitiesRequest) Get() (*SearchEntitiesResponse, error) {
 		return nil, err
 	}
 	if res.StatusCode() != 200 {
-		return nil, errors.New("request failed with status code " + string(res.StatusCode()))
+		return nil, fmt.Errorf("request failed with status code %d", res.StatusCode())
 	}
 
 	responseData.SearchRequest = *r
@@ -295,4 +297,16 @@ func (r *SearchEntitiesResponse) Next() (*SearchEntitiesResponse, error) {
 // ImageResizer returns the url for resizing a wikimedia image to the given size
 func ImageResizer(imageName string, size int) string {
 	return fmt.Sprintf(imageResizerURL, size, imageName)
+}
+
+func createParam(param string, values []string) string {
+	newString := "&" + param + "="
+	valuesLen := len(values)
+	for i, value := range values {
+		newString += value
+		if i+1 < valuesLen {
+			newString += "|"
+		}
+	}
+	return newString
 }

@@ -1,13 +1,26 @@
 package gowikidata
 
+import (
+	"encoding/json"
+	"strconv"
+)
+
 // WikiDataGetEntitiesRequest stores entities request url
 type WikiDataGetEntitiesRequest struct {
 	URL string
 }
 
+func (r *WikiDataGetEntitiesRequest) setParam(param string, values *[]string) {
+	r.URL += createParam(param, *values)
+}
+
 // WikiDataGetClaimsRequest stores claims request url
 type WikiDataGetClaimsRequest struct {
 	URL string
+}
+
+func (r *WikiDataGetClaimsRequest) setParam(param string, values *[]string) {
+	r.URL += createParam(param, *values)
 }
 
 // WikiDataSearchEntitiesRequest stores parameters for entities search
@@ -19,6 +32,10 @@ type WikiDataSearchEntitiesRequest struct {
 	Props          []string
 	StrictLanguage bool
 	Search         string
+}
+
+func (r *WikiDataSearchEntitiesRequest) setParam(param string, values *[]string) {
+	r.URL += createParam(param, *values)
 }
 
 // Entity represents wikidata entities data
@@ -35,6 +52,16 @@ type Entity struct {
 	Aliases      map[string][]Alias     `json:"aliases"`
 	Claims       map[string][]Claim     `json:"claims"`
 	SiteLinks    map[string]SiteLink    `json:"sitelinks"`
+}
+
+// GetDescription returns entity description in the given language code
+func (e *Entity) GetDescription(languageCode string) string {
+	return e.Descriptions[languageCode].Value
+}
+
+// GetLabel returns entity label in the given language code
+func (e *Entity) GetLabel(languageCode string) string {
+	return e.Labels[languageCode].Value
 }
 
 // Label represents wikidata labels data
@@ -98,6 +125,43 @@ type DynamicDataValue struct {
 	I           int
 	ValueFields DataValueFields
 	Type        string
+}
+
+// UnmarshalJSON unmarshales given json result to DynamicDataValue
+// It's main job is to find the data type and set the fields accordingly
+func (d *DynamicDataValue) UnmarshalJSON(b []byte) (err error) {
+	s := string(b)
+
+	// If value starts with " and also ends with "
+	// Then its string
+	if string(s[0]) == "\"" && string(s[len(s)-1]) == "\"" {
+		// Remove extra " from both sides of the string.
+		cleaned := s[1 : len(s)-1]
+		d.Data = cleaned
+		d.S = cleaned
+		d.Type = "String"
+	} else {
+		// If its int
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			// If its not int or string
+			// Use DataValueFields
+			values := DataValueFields{}
+			err := json.Unmarshal(b, &values)
+			if err != nil {
+				return err
+			}
+			d.Type = "DataValueFields"
+			d.ValueFields = values
+			d.Data = values
+		} else {
+			// set value
+			d.Type = "Int"
+			d.I = i
+			d.Data = i
+		}
+	}
+	return
 }
 
 // DataValueFields represents wikidata value fields
