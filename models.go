@@ -89,6 +89,7 @@ type SiteLink struct {
 	Site   string   `json:"site"`
 	Title  string   `json:"title"`
 	Badges []string `json:"badges"`
+	URL    string   `json:"url"`
 }
 
 // Claim represents wikidata claims data
